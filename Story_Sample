@@ -1,0 +1,71 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Define all output strings
+string PROMPT_NAME = "What is your name? ";
+string INTRO_TEXT = "Welcome, ";
+string INTRO_END = "! Your journey begins now.\n";
+
+string LOCATION_NAME = "Darkwood Forest";
+string ENEMY_NAME = "Zargoth the Wicked";
+
+string ENTER_PROMPT = "You walk toward the mysterious " + LOCATION_NAME + ". Do you enter? (yes/no): ";
+string MEET_ENEMY = "Inside, you meet a strange figure named " + ENEMY_NAME + ".\n";
+string CHOICE_ACTION = "Do you fight, run, or befriend them? ";
+
+string OUTCOME_FIGHT = "You bravely defeat " + ENEMY_NAME + " and win the treasure!";
+string OUTCOME_RUN = "You escape safely but miss the treasure.";
+string OUTCOME_FRIEND = ENEMY_NAME + " becomes your ally!";
+string OUTCOME_HOME = "You return home and live peacefully. The end.";
+
+bool isValidYesNo(const string& input) {
+    return input == "yes" || input == "no";
+}
+
+bool isValidAction(const string& input) {
+    return input == "fight" || input == "run" || input == "befriend";
+}
+
+int main() {
+    string heroName, choice1, endingChoice;
+
+    cout << PROMPT_NAME;
+    cin >> heroName;
+
+    cout << INTRO_TEXT << heroName << INTRO_END;
+
+    // Validate yes/no input
+    while (true) {
+        cout << ENTER_PROMPT;
+        cin >> choice1;
+        if (isValidYesNo(choice1)) break;
+        cout << "Invalid input. Please type 'yes' or 'no'.\n";
+    }
+
+    if (choice1 == "yes") {
+        cout << MEET_ENEMY;
+        // Validate fight/run/befriend input
+        while (true) {
+            cout << CHOICE_ACTION;
+            cin >> endingChoice;
+            if (isValidAction(endingChoice)) break;
+            cout << "Invalid input. Please type 'fight', 'run', or 'befriend'.\n";
+        }
+
+        if (endingChoice == "fight") {
+            cout << OUTCOME_FIGHT;
+        }
+        else if (endingChoice == "run") {
+            cout << OUTCOME_RUN;
+        }
+        else {  // befriend
+            cout << OUTCOME_FRIEND;
+        }
+    }
+    else {
+        cout << OUTCOME_HOME;
+    }
+
+    return 0;
+}
