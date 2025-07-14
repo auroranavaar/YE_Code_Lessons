@@ -1,0 +1,15 @@
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+string MYNAME = "My name is \n";
+string HELLO = "Hello, ";
+string EXCLAIMATION = "!";
+
+int main() {
+	string userName;
+	cout << MYNAME;
+	cin >> userName;
+	cout << HELLO << userName << EXCLAIMATION << endl;
+}
