@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// names
+string ENTER_PROMPT = "Please enter your name: \n";
+string INTRO_TEXT = "Welcome, ";
+string INTRO_END = "Your journey begins now! \n";
+string SLASHN = "\n";
+
+int main() {
+	string playerName, playerInputName, endingChoice;
+
+	cout << ENTER_PROMPT;
+	cin >> playerInputName;
+
+	cout << INTRO_TEXT << playerInputName << SLASHN << INTRO_END
+
+}
