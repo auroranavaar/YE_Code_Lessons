@@ -1,0 +1,31 @@
+# WRITTEN IN PYTHON
+
+from machine import Pin, PWM
+import time
+
+#define Servo
+servo = PWM(Pin 15)) #GP15
+servo.freq(50) #sets PWM frequency to 50Hz
+
+#define IR sensors input pin
+ir_sensor = Pin(14, Pin.IN) #IR sensor output connected to GP14
+
+
+sdef smooth_servo_move(start_angle, end_angle, step_delay=0.02)
+    step = 2 if end_angle > start_angle else -2 #step size, can adjust
+    duty = int(((angle / 180 ) * 5000) + 1000) #convert sngle to duty cycle(1000-8000)servo.freq
+    servo.duty_u16(duty)
+    time.sleep(step_delay) # small delay for smoother movement
+    
+#default reset position upon startup
+smooth_servo_move(90,0) #move servo to default position
+time.sleep(1)
+
+while True:
+    if ir_sensor.value() == 0: #IR detects obstacles
+        smooth_servo_move(0, 180) #moves 180
+        time.sleep(2) #holds position for 2 seconds
+        smooth_servo_move(180, 0) #returns to 0 deg smoothly
+        
+    time.sleep(0.1) #small delay avoids unnecessary processing.
+        
