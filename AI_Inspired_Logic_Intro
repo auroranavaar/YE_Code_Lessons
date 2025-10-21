@@ -1,0 +1,74 @@
+// C++ code
+//for arduino introductory lesson series
+
+
+//binary display index A(A21) B(A26)
+const uint8_t PIN_A = 8;
+const uint8_t PIN_B = 9;
+
+const uint8_t BIN_MSB = 5; // shows A
+const uint8_t BIN_LSB = 6; // shows B
+const uint8_t LED_SAFE = 2; //green
+const uint8_t LED_UNSAFE = 3; //red 
+
+
+//debounce read; returns true when pressed
+bool readPressed(uint8_t pin){
+	const unsigned long d = 10;
+	int a = digitalRead(pin);
+  	delay(d);
+  	int b = digitalRead(pin);
+  	return (a==b) ? (b == LOW) : (digitalRead(pin) == LOW);
+}
+
+void setup()
+{
+  pinMode(PIN_A, INPUT_PULLUP);
+  pinMode(PIN_B, INPUT_PULLUP);
+  
+  pinMode(BIN_MSB, OUTPUT);
+  pinMode(BIN_LSB, OUTPUT);
+  pinMode(LED_SAFE, OUTPUT);
+  pinMode(LED_UNSAFE, OUTPUT);
+  
+  digitalWrite(BIN_MSB, LOW);
+  digitalWrite(BIN_LSB, LOW);
+  digitalWrite(LED_SAFE, LOW); 
+  digitalWrite(LED_UNSAFE, LOW); 
+  
+  Serial.begin(9600);
+  Serial.println(F("AI Logic Tester: SAFE if (A=1 && B=0)"));
+  Serial.println(F("Binary LEDs show state index: (A B) -> MSB:LSB = D6:D5"));
+}
+ 
+
+
+void loop()
+{
+  // With INPUT_PULLUP: pressed -> LOW -> logical 1 for our rule
+  bool A = readPressed(PIN_A); // true when pressed
+  bool B = readPressed(PIN_B); // true when pressed
+
+  // Show input state in binary: MSB=A, LSB=B
+  digitalWrite(BIN_MSB, A ? HIGH : LOW);
+  digitalWrite(BIN_LSB, B ? HIGH : LOW);
+
+  // AI decision rule
+  bool safe = (A && !B);
+
+  digitalWrite(LED_SAFE,  safe ? HIGH : LOW);
+  digitalWrite(LED_UNSAFE, safe ? LOW  : HIGH);
+
+  // Optional serial feedback
+  static bool pA = !A, pB = !B, pS = !safe;
+  if (A != pA || B != pB || safe != pS) {
+    Serial.print("A="); Serial.print(A ? 1 : 0);
+    Serial.print(" B="); Serial.print(B ? 1 : 0);
+    Serial.print(" | state="); Serial.print((A<<1)|B);
+    Serial.print(" | SAFE="); Serial.println(safe ? 1 : 0);
+    pA = A; pB = B; pS = safe;
+  }
+  
+  delay(20); // tame flicker
+  
+}
