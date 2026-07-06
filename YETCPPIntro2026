@@ -1,0 +1,127 @@
+// YETCPPIntro2026.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+using std::string;
+
+const string ROBOT_ADVENTURE = "Welcome to your robot adventure!";
+const string BATTERY_PERCENT = "Battery %: ";
+const string STOP_FORWARD = "Should the robot stop or go forward?";
+const string ROBOT_FORWARD = "The robot moves forward";
+const string ROBOT_STOP = "The robot stops and scans the track";
+const string ROBOT_NOUNDERSTAND = "The robot doesn't understand that command.";
+const string ROBOT_RL = "Should the robot turn right or left?";
+const string ROBOT_LEFT = "The robot turns left.";
+const string ROBOT_RIGHT = "The robot turns right.";
+const string AVOIDS_OBSTACLE = "The robot avoids the obstacle!";
+const string HITS_OBSTACLE = "The robot hits the obstacle! The robot is confused. ";
+const string ROBOT_REORIENT = "The robot reorients itself back to the line. ";
+const string ROBOT_THINKING = "The robot is thinking...";
+const string ROBOT_SUCCESS = "Success! Your robot finished with ";
+const string ROBOT_OK = "Your robot finished the course, but the battery is low";
+const string ROBOT_BATTERY = "Oh no! The robot ran out of battery.";
+
+
+int main(){
+    string choice; 
+    int battery = 100; //Shows battery life.
+
+    cout << ROBOT_ADVENTURE << endl;
+    cout << "Your robot car is ready to hit the test track." << endl;
+    cout << BATTERY_PERCENT << battery << endl;
+    cout << endl;
+
+    cout << "The robot reaches a line on the floor." << endl;
+    cout << STOP_FORWARD << endl;
+    cin >> choice; 
+
+    while (choice != "forward" && choice != "stop") {
+        cout << ROBOT_NOUNDERSTAND << "Please type 'forward' or 'stop': ";
+        battery = battery - 10;
+        cin >> choice;
+        cout << BATTERY_PERCENT << battery << endl;
+    }
+    if (choice == "forward") {
+        cout << ROBOT_FORWARD << endl;
+        battery = battery - 10;
+    }//robot moves forward, loses 10%
+    else if (choice == "stop") {
+        cout << ROBOT_STOP << endl;
+        battery = battery - 5;
+    }//robot stops, loses 5%
+
+    cout << BATTERY_PERCENT << battery << endl;
+    cout << endl;
+    //END OF 1st ROUND ************************************************************************************
+        
+    cout << "An obstacle is ahead!" << endl; 
+    cout << ROBOT_RL << endl;
+    cin >> choice;
+    cout << endl;
+
+    while (choice != "left" && choice != "right") {
+        cout << ROBOT_NOUNDERSTAND << "Please type 'left' or 'right': " << endl;
+        battery = battery - 10;
+        cin >> choice;
+        cout << BATTERY_PERCENT << battery << endl;
+    }
+    if (choice == "left") {
+        cout << ROBOT_LEFT << AVOIDS_OBSTACLE << endl;
+        battery = battery - 15;
+    }
+    else if (choice == "right") {
+        cout << ROBOT_RIGHT << HITS_OBSTACLE << endl;
+        battery = battery - 15;
+        cout << BATTERY_PERCENT << battery << endl;
+        cout << ROBOT_THINKING << endl;
+        cout << endl;
+        cout << ROBOT_REORIENT << "The robot turns left, following the line." << endl;
+        battery = battery - 5;
+        cout << BATTERY_PERCENT << battery << endl;
+        cout << endl;
+    }
+
+    cout << BATTERY_PERCENT << battery << endl;
+
+
+    //end of 2nd ROUND ************************************************************************************
+   
+    cout << "The robot continues to follow the tape onthe floor." << endl;
+    cout << "Should it increase speed or stop? Type 'speed' or 'stop'. " << endl;
+    cin >> choice; 
+
+    while (choice != "stop" && choice != "speed") {
+        cout << ROBOT_NOUNDERSTAND << "Please type 'stop' or 'speed': " << endl;
+        battery = battery - 10;
+        cin >> choice;
+        cout << BATTERY_PERCENT << battery << endl;
+    }
+    if (choice == "stop") {
+        cout << ROBOT_STOP << "Great choice, the robot detected the boundary and continued with no issues." << endl;
+        battery = battery - 10;
+        cout << endl;
+    }
+    else if (choice == "speed up") {
+        cout << "Oh no! The robot drove too fast and lost the line!" << endl;
+        battery = battery - 15;
+        cout << ROBOT_REORIENT << endl;
+        battery = battery - 10; 
+        cout << BATTERY_PERCENT << battery << endl; 
+    }
+// end of ROUND 3*************************************************************
+    cout << BATTERY_PERCENT << battery << endl;
+    cout << endl;
+
+    if (battery > 50) {
+        cout << ROBOT_SUCCESS << battery << endl;
+    }
+    else if (battery > 0) {
+        cout << ROBOT_OK << endl;
+        cout << BATTERY_PERCENT << battery << endl;
+    }
+    else {
+        cout << ROBOT_BATTERY << battery << endl;
+    }
+        return 0;
+}
